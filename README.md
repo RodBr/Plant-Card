@@ -4,16 +4,16 @@ A Home AssistantLovelace card to report MiFlora plant sensors based on the HA Pl
 
 ![plant-card](plant-card.png)
 
+
 ## Options
 
 | Name | Type | Default | Description
 | ---- | ---- | ------- | -----------
 | type | string | **Required** | `custom:plant-card`
 | title | string | **Required** | Name of the plant being monitored
-| image | string | **Rquired** | Path to an image of the plant being monitored
+| image | string | **Required** | Path to an image of the plant being monitored
 | entities | list | **Required** | A list sensors to be monitored
 
-| title | string | 📣 Updates | Name to display on card
 
 ## Installation
 
