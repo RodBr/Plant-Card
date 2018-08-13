@@ -1,6 +1,6 @@
 # Plant Card
 
-A Home AssistantLovelace card to report MiFlora plant sensors based on the HA Plant Card
+A Home Assistant Lovelace card to report MiFlora plant sensors based on the HA Plant Card
 
 ![plant-card](plant-card.png)
 
