@@ -113,9 +113,8 @@ class PlantCard extends HTMLElement {
         color: white;
       }
       ha-card .header {
-        color: orange;
         width: 100%;
-        background:rgba(0, 0, 0, var(--dark-secondary-opacity));
+        background: none;
       }
       .uom {
         color: var(--secondary-text-color);
