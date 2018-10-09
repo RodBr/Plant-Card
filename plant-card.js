@@ -45,6 +45,12 @@ class PlantCard extends HTMLElement {
   set hass(hass) {
     const _config = this.config;
 
+    var _maxMoisture = this.config.max_moisture;
+    var _minMoisture = this.config.min_moisture;
+    var _minConductivity = this.config.min_conductivity;
+    var _minTemperature = this.config.min_termperature;
+
+
     var _sensors = [];
     for (var i=0; i < this.config.entities.length; i++) {
      _sensors.push(this.config.entities[i].split(":")); // Split name away from sensor id
@@ -53,10 +59,11 @@ class PlantCard extends HTMLElement {
     this.shadowRoot.getElementById('container').innerHTML = `
     <style>
     ha-card {
-      background-image:url(/local/${this.config.image})
+      background-image:url(/local/${this.config.image});
+      text-shadow: 2px 2px black;
     }
     .header {
-      color: white;
+      color: black;
       width: 100%;
       background:rgba(0, 0, 0, var(--dark-secondary-opacity));
     }
@@ -72,11 +79,34 @@ class PlantCard extends HTMLElement {
       var _state = hass.states[_sensor].state || "Invalid State";
       var _uom = hass.states[_sensor].attributes.unit_of_measurement || "";
       var _icon = this._computeIcon(_name, _state);
+      var _alertStyle = '';
+      var _alertIcon = '';
+      if (_name == 'moisture') {
+        if (_state > _maxMoisture) {
+          _alertStyle = ';color:red; font-weight: bold';
+          _alertIcon = '&#9650; '
+        } else if (_state < _minMoisture) {
+          _alertStyle = ';color:red; font-weight: bold';
+          _alertIcon = '&#9660; '
+        }
+      }
+      if (_name == 'conductivity') {
+        if (_state < _minConductivity) {
+          _alertStyle = ';color:red; font-weight: bold';
+          _alertIcon = '&#9660; ';
+        } 
+      }
+      if (_name == 'termperature') {
+        if (_state < _minTemperature) {
+          _alertStyle = ';color:red; font-weight: bold';
+          _alertIcon = '&#9660; ';
+        } 
+      }
       this.shadowRoot.getElementById('sensors').innerHTML += `
       <div id="sensor${i}" class="sensor">
         <div><ha-icon icon="${_icon}"></ha-icon></div>
         <div>${_name}</div>
-        <div style="float:right">${_state}${_uom}</div>
+        <div style="float:right${_alertStyle}">${_alertIcon}${_state}${_uom}</div>
       </div>
       `
      }
