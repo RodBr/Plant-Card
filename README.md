@@ -45,7 +45,8 @@ resources:
   entities:
   - moisture:sensor.plant_1_moisture
   - intensity:sensor.plant_1_light_intensity
+  - temperature:sensor.plant_1_temperature
   - conductivity:sensor.plant_1_conductivity
   - battery:sensor.plant_1_battery
-  - temperature:sensor.plant_1_temperature
+
 ```
