@@ -1,3 +1,4 @@
+/* mini-media-player - version: v0.1.0 */
 class PlantCard extends HTMLElement {
   constructor() {
     super();
@@ -94,13 +95,13 @@ class PlantCard extends HTMLElement {
         if (_state < _minConductivity) {
           _alertStyle = ';color:red; font-weight: bold';
           _alertIcon = '&#9660; ';
-        } 
+        }
       }
       if (_name == 'termperature') {
         if (_state < _minTemperature) {
           _alertStyle = ';color:red; font-weight: bold';
           _alertIcon = '&#9660; ';
-        } 
+        }
       }
       this.shadowRoot.getElementById('sensors').innerHTML += `
       <div id="sensor${i}" class="sensor">

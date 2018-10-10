@@ -1,2 +1,2 @@
-v0.1
-Initial release with version tracking
+##v0.1
+- Initial release with version tracking
