@@ -51,7 +51,6 @@ class PlantCard extends HTMLElement {
     var _minConductivity = this.config.min_conductivity;
     var _minTemperature = this.config.min_termperature;
 
-
     var _sensors = [];
     for (var i=0; i < this.config.entities.length; i++) {
      _sensors.push(this.config.entities[i].split(":")); // Split name away from sensor id
