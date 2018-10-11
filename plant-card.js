@@ -1,4 +1,4 @@
-/* mini-media-player - version: v0.1.0 */
+/* plant-card - version: v0.2.0 */
 class PlantCard extends HTMLElement {
   constructor() {
     super();
@@ -44,30 +44,19 @@ class PlantCard extends HTMLElement {
 
   //Home Assistant will set the hass property when the state of Home Assistant changes (frequent).
   set hass(hass) {
-    const _config = this.config;
+    const config = this.config;
 
-    var _maxMoisture = this.config.max_moisture;
-    var _minMoisture = this.config.min_moisture;
-    var _minConductivity = this.config.min_conductivity;
-    var _minTemperature = this.config.min_termperature;
+    var _maxMoisture = config.max_moisture;
+    var _minMoisture = config.min_moisture;
+    var _minConductivity = config.min_conductivity;
+    var _minTemperature = config.min_termperature;
 
     var _sensors = [];
-    for (var i=0; i < this.config.entities.length; i++) {
-     _sensors.push(this.config.entities[i].split(":")); // Split name away from sensor id
+    for (var i=0; i < config.entities.length; i++) {
+     _sensors.push(config.entities[i].split(":")); // Split name away from sensor id
     }
 
     this.shadowRoot.getElementById('container').innerHTML = `
-    <style>
-    ha-card {
-      background-image:url(/local/${this.config.image});
-      text-shadow: 2px 2px black;
-    }
-    .header {
-      color: black;
-      width: 100%;
-      background:rgba(0, 0, 0, var(--dark-secondary-opacity));
-    }
-    </style>
     <div class="content">
       <div id="sensors"></div>
     </div>
@@ -104,7 +93,7 @@ class PlantCard extends HTMLElement {
       }
       this.shadowRoot.getElementById('sensors').innerHTML += `
       <div id="sensor${i}" class="sensor">
-        <div><ha-icon icon="${_icon}"></ha-icon></div>
+        <div class="icon"><ha-icon icon="${_icon}"></ha-icon></div>
         <div>${_name}</div>
         <div style="float:right${_alertStyle}">${_alertIcon}${_state}${_uom}</div>
       </div>
@@ -122,34 +111,33 @@ class PlantCard extends HTMLElement {
       throw new Error('Please define an entity');
     }
 
-    if (this.shadowRoot.lastChild) this.shadowRoot.removeChild(this.shadowRoot.lastChild);
+    const root = this.shadowRoot;
+    if (root.lastChild) root.removeChild(root.lastChild);
 
     this.config = config;
 
     const card = document.createElement('ha-card');
-    card.header = config.title;
-    const style = document.createElement('style');
-
     const content = document.createElement('div');
-    content.id = 'container';
-    card.appendChild(style);
-    card.appendChild(content);
-    this.shadowRoot.appendChild(card);
+    const style = document.createElement('style');
 
     style.textContent = `
       ha-card {
         position: relative;
         padding: 0;
         color: white;
+        text-shadow: 2px 2px black;
+        background-size: 100%;
+        background-image: url(/local/${config.image});
       }
       ha-card .header {
         width: 100%;
-        background: none;
+        color: black;
+        background:rgba(0, 0, 0, var(--dark-secondary-opacity));
       }
       .uom {
         color: var(--secondary-text-color);
       }
-      ha-icon {
+      .icon {
         color: var(--paper-item-icon-color);
         margin-bottom: 8px;
       }
@@ -167,7 +155,12 @@ class PlantCard extends HTMLElement {
         display: inline;
       }
       `;
-  }
+      content.id = "container";
+      card.header = config.title;
+      card.appendChild(content);
+      card.appendChild(style);
+      root.appendChild(card);
+    }
 
   // The height of your card. Home Assistant uses this to automatically
   // distribute all cards over the available columns.
